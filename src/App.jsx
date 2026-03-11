@@ -1,15 +1,56 @@
+import { useState } from "react";
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import { SignInButton, SignUpButton, UserButton, useAuth } from "@clerk/react";
 import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import "./App.css";
 
+
+function UpgradeButton() {
+  const { isSignedIn, userId } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  if (!isSignedIn) return null;
+
+  const handleUpgrade = async () => {
+    setLoading(true);
+    try {
+      const base = import.meta.env.DEV ? 'http://localhost:8888' : '';
+      const res = await fetch(`${base}/.netlify/functions/create-checkout-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          userEmail: '', // Clerk will fill this from the session
+        }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch (err) {
+      console.error('Checkout error:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button className="btn btn-primary" onClick={handleUpgrade} disabled={loading}>
+      {loading ? 'Loading...' : 'Upgrade to Pro'}
+    </button>
+  );
+}
+
 function AuthButtons() {
   const { isSignedIn } = useAuth();
 
   if (isSignedIn) {
-    return <UserButton afterSignOutUrl="/" />;
-  }
+  return (
+    <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+      <UpgradeButton />
+      <UserButton afterSignOutUrl="/" />
+    </div>
+  );
+}
 
   return (
     <div style={{ display: "flex", gap: "8px" }}>
