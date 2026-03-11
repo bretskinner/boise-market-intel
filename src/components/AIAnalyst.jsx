@@ -147,7 +147,8 @@ export default function AIAnalyst({ systemPrompt }) {
               </div>
             );
           }
-          return <p key={i}>{item.text}</p>;
+          const html = item.text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+          return <p key={i} dangerouslySetInnerHTML={{ __html: html }} />;
         })}
       </div>
 
