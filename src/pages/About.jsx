@@ -12,6 +12,25 @@ export default function About() {
       </div>
 
       <div className="about-section">
+        <h2>About the Builder</h2>
+        <p>
+          Bret Skinner is an aspiring AI agent builder with a passion for sports, live events, and
+          the four seasons that Boise does better than most. Husband, father of two, and committed
+          San Diego sports fan — building tools at the intersection of AI and real-world data.
+        </p>
+        <p style={{ marginTop: "12px", display: "flex", gap: "16px", flexWrap: "wrap" }}>
+          <a href="https://github.com/bretskinner/boise-market-intel" target="_blank" rel="noreferrer"
+            style={{ color: "var(--accent2)", fontFamily: "var(--font-mono)", fontSize: "13px" }}>
+            GitHub →
+          </a>
+          <a href="https://www.linkedin.com/in/bret-skinner-11761682/" target="_blank" rel="noreferrer"
+            style={{ color: "var(--accent2)", fontFamily: "var(--font-mono)", fontSize: "13px" }}>
+            LinkedIn →
+          </a>
+        </p>
+      </div>
+
+      <div className="about-section">
         <h2>Key Product Decisions</h2>
         <div className="decision-grid">
           <div className="decision-card">
@@ -83,11 +102,6 @@ export default function About() {
           Built as a portfolio project demonstrating AI API integration, React component architecture,
           and product thinking applied to a real-world use case. Market data is representative of
           actual Boise metro patterns as of early 2026.
-        </p>
-        <p>
-          <a href="https://github.com/yourusername/boise-market-intel" style={{ color: "var(--accent2)" }}>
-            View on GitHub →
-          </a>
         </p>
       </div>
     </div>
