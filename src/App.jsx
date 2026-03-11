@@ -1,7 +1,27 @@
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { SignInButton, SignUpButton, UserButton, useAuth } from "@clerk/react";
 import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import "./App.css";
+
+function AuthButtons() {
+  const { isSignedIn } = useAuth();
+
+  if (isSignedIn) {
+    return <UserButton afterSignOutUrl="/" />;
+  }
+
+  return (
+    <div style={{ display: "flex", gap: "8px" }}>
+      <SignInButton mode="modal">
+        <button className="btn">Sign in</button>
+      </SignInButton>
+      <SignUpButton mode="modal">
+        <button className="btn btn-primary">Sign up</button>
+      </SignUpButton>
+    </div>
+  );
+}
 
 function App() {
   return (
@@ -25,6 +45,8 @@ function App() {
               <span>Treasure Valley, ID</span>
               <span className="meta-dot">·</span>
               <span className="meta-live">Updated weekly</span>
+              <span className="meta-dot">·</span>
+              <AuthButtons />
             </div>
           </div>
         </header>
