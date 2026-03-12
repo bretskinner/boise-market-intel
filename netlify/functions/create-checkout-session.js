@@ -23,7 +23,7 @@ export const handler = async (event) => {
       metadata: {
         clerkUserId: userId,
       },
-      success_url: `${process.env.URL}/dashboard?upgraded=true`,
+      success_url: `${process.env.URL}/?upgraded=true`,
       cancel_url: `${process.env.URL}/pricing`,
     });
 
