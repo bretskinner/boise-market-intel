@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
-import { SignInButton, SignUpButton, UserButton, useAuth } from "@clerk/react";
+import { SignInButton, SignUpButton, UserButton, useAuth, useUser } from "@clerk/react";
 import Dashboard from "./pages/Dashboard";
 import About from "./pages/About";
 import "./App.css";
@@ -8,6 +8,7 @@ import "./App.css";
 
 function UpgradeButton() {
   const { isSignedIn, userId } = useAuth();
+  const { user } = useUser();
   const [loading, setLoading] = useState(false);
 
   if (!isSignedIn) return null;
@@ -21,7 +22,7 @@ function UpgradeButton() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userId,
-          userEmail: '', // Clerk will fill this from the session
+          userEmail: user?.primaryEmailAddress?.emailAddress ?? '',
         }),
       });
       const data = await res.json();
