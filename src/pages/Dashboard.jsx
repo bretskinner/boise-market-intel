@@ -4,7 +4,7 @@ import AIAnalyst from "../components/AIAnalyst";
 import MarketSegments from "../components/MarketSegments";
 import PriceHistoryChart from "../components/PriceHistoryChart";
 
-import { useUser } from "@clerk/clerk-react";
+import { useUser } from "@clerk/react";
 
 const MARKET_DATA = {
   metrics: [
