@@ -2,6 +2,9 @@ import MetricsRow from "../components/MetricsRow";
 import NeighborhoodList from "../components/NeighborhoodList";
 import AIAnalyst from "../components/AIAnalyst";
 import MarketSegments from "../components/MarketSegments";
+import PriceHistoryChart from "../components/PriceHistoryChart";
+
+import { useUser } from "@clerk/clerk-react";
 
 const MARKET_DATA = {
   metrics: [
@@ -92,7 +95,9 @@ This week's market snapshot:
 Write in a professional but conversational tone. Be specific and direct. Use actual numbers. 2-3 short paragraphs max. No bullet points.`;
 
 export default function Dashboard() {
-  const now = new Date("2026-03-10");
+  const { user } = useUser();
+  const isPro = user?.publicMetadata?.tier === 'pro';
+  const now = new Date();
   const start = new Date(now);
   start.setDate(start.getDate() - 6);
   const weekLabel = `Week of ${start.toLocaleDateString("en-US", { month: "short", day: "numeric" })} – ${now.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`;
@@ -101,7 +106,7 @@ export default function Dashboard() {
     <>
       <div className="section-label">Weekly Snapshot</div>
       <MetricsRow metrics={MARKET_DATA.metrics} />
-
+      <PriceHistoryChart isPro={isPro} />
       <div className="content-grid">
         <NeighborhoodList neighborhoods={MARKET_DATA.neighborhoods} weekLabel={weekLabel} />
         <AIAnalyst systemPrompt={SYSTEM_PROMPT} />
