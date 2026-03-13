@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useUser } from "@clerk/react";
 
 const API_URL = "/api/analyze";
 
@@ -18,13 +19,16 @@ export default function AIAnalyst({ systemPrompt }) {
   const [history, setHistory] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
   const outputRef = useRef(null);
+  const { user } = useUser();
+  const userId = user?.id ?? null;
+  const userTier = user?.publicMetadata?.tier ?? 'free';
 
   async function callAPI(userMessage, currentHistory) {
     const nextHistory = [...currentHistory, { role: "user", content: userMessage }];
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: nextHistory, systemPrompt }),
+      body: JSON.stringify({ messages: nextHistory, systemPrompt, userId, userTier }),
     });
     const data = await res.json();
     if (data.error) throw new Error(data.error);
