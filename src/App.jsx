@@ -9,9 +9,11 @@ import "./App.css";
 function UpgradeButton() {
   const { isSignedIn, userId } = useAuth();
   const { user } = useUser();
+  const tier = user?.publicMetadata?.tier;
   const [loading, setLoading] = useState(false);
 
   if (!isSignedIn) return null;
+  if (tier === 'pro') return null;
 
   const handleUpgrade = async () => {
     setLoading(true);
