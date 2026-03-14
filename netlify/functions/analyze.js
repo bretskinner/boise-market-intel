@@ -2,7 +2,7 @@ import { getStore } from "@netlify/blobs";
 
 const LIMITS = {
   unauthenticated: 1,
-  free: 3,
+  free: 5,
   pro: 20,
 };
 
@@ -52,12 +52,12 @@ export default async (req) => {
     if (!allowed) {
       return new Response(
         JSON.stringify({
-          error: `Daily limit reached. You've used ${count}/${limit} analyses today. ${
+          error: `${
             tier === "unauthenticated"
-              ? "Sign in for more."
+              ? "Please login to use the AI Analysis Tool."
               : tier === "free"
-              ? "Upgrade to Pro for 20/day."
-              : "Limit resets tomorrow."
+              ? `Daily limit reached. You've used ${count}/${limit} analyses today. Upgrade to Pro for 20/day.`
+              : "Daily limit reached. Resets tomorrow."
           }`,
           rateLimited: true,
           tier,
